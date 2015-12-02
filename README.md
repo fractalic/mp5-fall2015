@@ -73,7 +73,7 @@ The grammar for the query language is:
 <name> ::= "name" <LParen><string><RParen>
 <rating> ::= "rating" <LParen><range><RParen>
 <price> ::= "price" <LParen><range><RParen>
-<range> ::= <LParen>[1-5]..[1-5]<RParen>
+<range> ::= [1-5]..[1-5]
 <LParen> ::= "("
 <RParen> ::= ")"
 ```
@@ -88,7 +88,7 @@ In this part of the machine problem you will implement two approaches to statist
 
 #### k-means Clustering
 
-Suppose you are given a set of (x, y) coordinates, you may sometimes want to group the points into _k_ clusters such that no point is closer to a point in a cluster other than the one to which it is assigned. In the case of restaurants, this approach may allow us to group restaurants that are in the same neighbourhood even without knowing anything about the neighbourhoods in a city. _A similar approach is used to group similar products on online shopping services such as Amazon._
+Suppose you are given a set of (x, y) coordinates, you may sometimes want to group the points into _k_ clusters such that no point is closer to the center point (centroid) of a cluster other than the one to which it is assigned. In the case of restaurants, this approach may allow us to group restaurants that are in the same neighbourhood even without knowing anything about the neighbourhoods in a city. _A similar approach is used to group similar products on online shopping services such as Amazon._
 
 The k-means algorithm finds k centroids within a dataset that each correspond to a cluster of inputs. To do so, k-means clustering begins by choosing k centroids at random, then alternates between the following two steps:
 
@@ -112,7 +112,7 @@ By analyzing a user's past ratings, we can try to predict what rating the user m
 
 To predict ratings, you will implement simple least-squares linear regression, a widely used statistical method that approximates a relationship between some input feature (such as price) and an output value (the rating) with a line. The algorithm takes a sequence of input-output pairs and computes the slope and intercept of the line that minimizes the mean of the squared difference between the line and the outputs.
 
-Implement the `getPredictor` method, which takes a user and a feature function (as well as the `RestaurantDB`), and returns a _function_ that predicts the users ratings as well as a regression quality estimate (`r_squared`).
+Implement the `getPredictor` method, which takes a user and a feature function (as well as the `RestaurantDB`), and returns a _function_ that predicts the users ratings.
 
 One method of computing these values is by calculating the sums of squares, S<sub>xx</sub>, S<sub>yy</sub>, and S<sub>xy</sub>:
 
@@ -120,7 +120,7 @@ One method of computing these values is by calculating the sums of squares, S<su
 + S<sub>yy</sub> = Σ<sub>i</sub> (y<sub>i</sub> - mean(y))<sup>2</sup>
 + S<sub>xy</sub> = Σ<sub>i</sub> (x<sub>i</sub> - mean(x))(y<sub>i</sub> - mean(y))
 
-After calculating the sums of squares, the regression coefficients and R<sup>2</sup> (`r_squared`) are defined as follows:
+After calculating the sums of squares, the regression coefficients and R<sup>2</sup> (`r_squared`), which is an estimate of the quality of the predictor, are defined as follows:
 
 + b = S<sub>xy</sub> / S<sub>xx</sub>
 + a = mean(y) - b * mean(x)
